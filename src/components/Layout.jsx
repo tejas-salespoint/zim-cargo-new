@@ -1,7 +1,8 @@
+// eslint-disable-next-line react/prop-types
 const Layout = ({ children }) => {
   return (
-    <div className="p-4 pt-16  bg-bg_img">
-      <div className="sm:ml-16">{children}</div>
+    <div className=" pt-16 h-screen  bg-bg_img">
+      <div className="sm:ml-14">{children}</div>
     </div>
   );
 };

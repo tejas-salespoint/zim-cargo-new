@@ -1,12 +1,15 @@
+
 import Layout from "../../components/Layout";
 
-const Home = () => {
+
+
+const PowerBi = () => {
   return (
     <Layout>
-    Home
+      
+     Hello
     </Layout>
-
   );
 };
 
-export default Home;
+export default PowerBi;
