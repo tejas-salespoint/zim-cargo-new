@@ -19,7 +19,8 @@
     "powerbi-client-react": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.18.0"
+    "react-router-dom": "^6.18.0",
+    "video.js": "^8.6.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

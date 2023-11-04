@@ -6,20 +6,32 @@ import ChatBot from "./pages/ChatBot/ChatBot";
 import Test from "./pages/Test/Test";
 import PowerBi from "./pages/PowerBi/PowerBi";
 import DemoVideo from "./pages/DemoVideo/DemoVideo";
+import CargoShipmentsReport from "./pages/PowerBi/CargoShipmentsReport";
+import CargoGlobalNetworkReport from "./pages/PowerBi/CargoGlobalNetworkReport";
+import FreightForwardingReport from "./pages/PowerBi/FreightForwardingReport";
+import NavigateChip from "./components/NavigateChip";
 
 function App() {
   return (
     <BrowserRouter>
-      <Topbar />
+    <div className="flex">
       <Sidebar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/chatbot" element={<ChatBot />} />
-        <Route path="/powerbi" element={<PowerBi />} />
-        <Route path="/video" element={<DemoVideo />} />
-        <Route path="/test" element={<Test />} />
-      </Routes>
-    </BrowserRouter>
+      <div className="flex-1 flex flex-col">
+        <Topbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/chatbot" element={<ChatBot />} />
+          <Route path="/powerbi" element={<PowerBi />} />
+          <Route path="/cargo_shipments_report" element={<CargoShipmentsReport />} />
+          <Route path="/cargo_global_network_report" element={<CargoGlobalNetworkReport />} />
+          <Route path="/freight_forwarding_report" element={<FreightForwardingReport />} />
+          <Route path="/video" element={<DemoVideo />} />
+          <Route path="/test" element={<Test />} />
+        </Routes>
+      </div>
+      <NavigateChip />
+    </div>
+  </BrowserRouter>
   );
 }
 
