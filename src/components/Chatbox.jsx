@@ -5,6 +5,9 @@ import ToggleButton from "./ToggleButton";
 import secondaryLogo from "/src/assets/secondary_logo.png";
 import axios from "axios";
 
+// const apiUrl = https://func-openai-search-002.azurewebsites.net/api/chat
+const apiUrl = "https://raw.githubusercontent.com/tejasghlade/json_data_api_test/main/zim_demo_get_api"
+
 const Chatbot = () => {
   const [AiChating, setAiChating] = useState([]);
   const [textFieldValue, setTextFieldValue] = useState("");
@@ -32,11 +35,11 @@ const Chatbot = () => {
     };
   
     // Define the API endpoint
-    const apiUrl = "https://func-openai-search-002.azurewebsites.net/api/chat";
+    // const apiUrl = "https://func-openai-search-002.azurewebsites.net/api/chat";
   
     // Send a POST request
    await  axios
-      .post(apiUrl, postData)
+      .get(apiUrl, postData)
       .then((response) => {
         // Handle the response data
         console.log("Response data:", response.data);
@@ -45,14 +48,7 @@ const Chatbot = () => {
         const newEntry = {
           id: newId,
           prompt: textFieldValue,
-          response: {
-            data_points: [],
-            answer: "getting fetch ...", // You can set a loading message here
-            thoughts: [],
-  
-            // Store the API response data in a specific property
-            responseData: response.data
-          },
+          response: response?.data
         };
   
         // Update AiChating with the newEntry
@@ -69,7 +65,7 @@ const Chatbot = () => {
   return (
     <div className="w-[65rem]  opacity-80 bg-slate-900 rounded-2xl shadow border border-white backdrop-blur-2xl">
       <div className="flex justify-center flex-col items-center gap-5 p-5">
-        <div className="flex  justify-center flex-col items-center gap-5 ">
+        <div className="flex   justify-center flex-col items-center gap-5 ">
           <img className="h-16 w-16" src={secondaryLogo} alt="secondary logo" />
           <div className="w-96 h-10 text-center text-white text-4xl font-normal font-['MagistralBlack']">
             Shipping Companion
@@ -96,12 +92,13 @@ const Chatbot = () => {
         {/* chatting */}
         {AiChating.map((chat) => (
           <>
-            <div className="   bg-neutral-200 rounded-lg self-end">
+            <div className="bg-neutral-200 rounded-lg self-end">
               <div className=" text-black p-3 text-md font-normal ">
                 {chat?.prompt}
               </div>
             </div>
-            <div className="   bg-neutral-200 rounded-lg self-start">
+            <div className="bg-neutral-200 rounded-lg self-start">
+              
               <div className=" text-black p-3 text-md font-normal ">
                 {chat?.response?.answer}
               </div>
