@@ -1,5 +1,4 @@
 import HomeIcon from '@mui/icons-material/Home';
-import ChatIcon from '@mui/icons-material/Chat';
 import SmartToyRoundedIcon from '@mui/icons-material/SmartToyRounded';
 import PowerBiIcon from '@mui/icons-material/BarChart';
 import VideoIcon from '@mui/icons-material/VideoLibrary';

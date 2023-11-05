@@ -1,4 +1,4 @@
-const InputField = ({ value, setValue , submitFunction }) => {
+const InputField = ({ value, setValue, submitFunction }) => {
   return (
     <form className="w-full">
       <label
