@@ -1,9 +1,9 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import * as React from "react";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -34,41 +34,115 @@ CustomTabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
-export default function PdfResponseTab() {
-  const [value, setValue] = React.useState(0);
+export default function PdfResponseTab({ activeIds, activePdf , response }) {
+  // todo :: practice
+
+  console.log(activeIds)
+  console.log(response)
+
+
+
+  const [value, setValue] = React.useState(activeIds?.tabId || 1);
+
+  React.useEffect(() => {
+setValue(activeIds?.tabId)
+  },[activeIds])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
-    <Box className='!p-0 ' sx={{ width: '100%' , padding : '0'  }}>
-      <Box  sx={{ borderBottom: 1, borderColor: 'divider' ,padding : 0 }}>
-        <Tabs value={value} onChange={handleChange} variant="fullWidth" aria-label="basic tabs example">
-          <Tab className={`!text-white !font-sans !font-semibold !text-md !normal-case ${value === 0 ? '!bg-opacity-30 !bg-black' : ''} !bg-opacity-30  !rounded-tl-2xl  rounded-md `}  label="Item One" {...a11yProps(0)} />
-          <Tab className={`!text-white !font-sans !font-semibold !text-md !normal-case ${value === 1 ? '!bg-opacity-30 !bg-black' : ''} !bg-opacity-30     `}  label="Item Two" {...a11yProps(1)} />
-          <Tab className={`!text-white !font-sans !font-semibold !text-md !normal-case ${value === 2 ? '!bg-opacity-30 !bg-black' : ''} !bg-opacity-30  !rounded-tr-2xl  rounded-md `} label="Item Three" {...a11yProps(2)} />
+    <Box className="!p-0 " sx={{ width: "100%", padding: "0" }}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider", padding: 0 }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          variant="fullWidth"
+          aria-label="basic tabs example"
+        >
+          <Tab
+            className={`!text-white !font-sans !font-semibold !text-md !normal-case ${
+              value === 0 ? "!bg-opacity-30 !bg-black" : ""
+            } !bg-opacity-30  !rounded-tl-2xl  rounded-md `}
+            label="Thought process"
+            {...a11yProps(0)}
+          />
+          <Tab
+            className={`!text-white !font-sans !font-semibold !text-md !normal-case ${
+              value === 1 ? "!bg-opacity-30 !bg-black" : ""
+            } !bg-opacity-30     `}
+            label="Supporting content"
+            {...a11yProps(1)}
+          />
+          <Tab
+            className={`!text-white !font-sans !font-semibold !text-md !normal-case ${
+              value === 2 ? "!bg-opacity-30 !bg-black" : ""
+            } !bg-opacity-30  !rounded-tr-2xl  rounded-md `}
+            label="Citation"
+            {...a11yProps(2)}
+          />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        Item One
-       
+        {/* {response[0].response?.thoughts.map((data, index) => (
+          <div key={index} className="bg-white p-3 m-3 rounded">
+            {data}
+          </div>
+        ))} */}
+
+        {
+          // eslint-disable-next-line react/prop-types
+          response
+            ?.filter((filterId) => filterId?.id === activeIds?.id)
+            .map((item, index) => (
+              <div
+                key={index}
+                className="bg-white m-3 rounded p-3"
+                dangerouslySetInnerHTML={{ __html: item?.response?.thoughts }}
+              ></div>
+            ))
+        }
+
+        {/* {response[0].response?.thoughts} */}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Item Two
+        {
+          // eslint-disable-next-line react/prop-types
+          response
+            ?.filter((filterId) => filterId?.id === activeIds?.id)
+            .map((item) => (
+              <>
+                {item?.response?.data_points?.map((data, index) => (
+                  <div key={index} className="bg-white p-3 m-3 rounded">
+                    <div className="text-lg font-bold ">
+                      {data?.split(".pdf:")[0]}
+                    </div>
+                    {data?.split(".pdf:")[1]}
+                  </div>
+                ))}
+              </>
+            ))
+        }
       </CustomTabPanel>
-      <CustomTabPanel  className="!m-0 max-h-[500px] overflow-y-auto " value={value} index={2}>
-      <iframe
-      title="Citation"
-      src="https://enterprise-chatbot-001.azurewebsites.net/api/content/2452Annual_Master_Circular_Hindi-2021-22_6Jan-15.pdf?container=9e2a2410"
-      width="100%"
-      height="810px"
-      style={{ marginTop: '12px' }}
-    />
+      <CustomTabPanel
+        className="!m-0 max-h-[500px] overflow-y-auto "
+        value={value}
+        index={2}
+      >
+        <span>{activePdf}</span>
+        <iframe
+          className=" rounded "
+          title="Citation"
+          src="https://enterprise-chatbot-001.azurewebsites.net/api/content/2452Annual_Master_Circular_Hindi-2021-22_6Jan-15.pdf?container=9e2a2410"
+          width="100%"
+          height="810px"
+          style={{ marginTop: "12px" }}
+        />
       </CustomTabPanel>
     </Box>
   );

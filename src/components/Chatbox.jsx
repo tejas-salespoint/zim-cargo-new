@@ -6,6 +6,13 @@ import secondaryLogo from "/src/assets/secondary_logo.png";
 import axios from "axios";
 import { SuggestedQuestions } from "../data/SuggestedQuestion";
 import PdfResponseTab from "./PdfResponseTab";
+import FileUploader from "./FileUploader";
+import {
+  ContentCopy,
+  DocumentScannerOutlined,
+  LightbulbOutlined,
+  RestartAlt,
+} from "@mui/icons-material";
 
 // const apiUrl = https://func-openai-search-002.azurewebsites.net/api/chat
 const apiUrl =
@@ -15,9 +22,28 @@ const Chatbot = () => {
   const [AiChating, setAiChating] = useState([]);
   const [textFieldValue, setTextFieldValue] = useState("");
   const [pdfUploadActive, setPdfUploadActive] = useState(false);
+  const [activePdfViewCitationName, setActivePdfViewCitationName] =
+    useState(null);
+  const [PdfResponseTabActiveId, setPdfResponseTabActiveId] = useState(null);
 
   const addValueToAiChating = async () => {
     console.log("run run");
+
+    // todo :: extract pdf files
+    function extractPDFFilesFromDataPoints(dataPoints) {
+      const pdfFiles = [];
+      const regex = /[^ ]+\.(pdf)/g; // Regular expression to match PDF file names
+
+      dataPoints.forEach((dataPoint) => {
+        const matches = dataPoint.match(regex);
+
+        if (matches) {
+          pdfFiles.push(...matches);
+        }
+      });
+
+      return pdfFiles;
+    }
 
     if (textFieldValue.trim() === "") {
       return; // Don't add empty values
@@ -44,17 +70,31 @@ const Chatbot = () => {
     // Send a POST request
     await axios
       .get(apiUrl, postData)
-      .then((response) => {
+      .then(async (response) => {
         // Handle the response data
         console.log("Response data:", response.data);
 
         const newId = AiChating.length + 1;
+
+        // Log the contents of data_points
+        console.log("Data Points:", response?.data?.data_points);
+
+        // Extract and log the PDF files
+        const pdfFiles = extractPDFFilesFromDataPoints(
+          response?.data?.data_points
+        );
+        console.log("PDF Files:", pdfFiles);
+
         const newEntry = {
           id: newId,
           prompt: textFieldValue,
           response: response?.data,
         };
 
+        (newEntry["pdfFiles"] = await extractPDFFilesFromDataPoints(
+          response?.data?.data_points
+        )),
+          console.log(newEntry?.pdfFiles);
         // Update AiChating with the newEntry
         setAiChating([...AiChating, newEntry]);
         setTextFieldValue(""); // Clear the text field after adding the value
@@ -65,10 +105,29 @@ const Chatbot = () => {
       });
   };
 
+  console.log(AiChating);
+
+  function onPdfActiveResponse(id, tabId) {
+    const idObject = {
+      id: id,
+      tabId: tabId,
+    };
+
+    console.log();
+    setPdfResponseTabActiveId(idObject);
+  }
+
+  // function onCopy() {}
+  // function onRefetch() {}
+  // function onShowThoughtProcess() {}
+  // function onShowSupportingContent() {}
+  // function onShowCitationPdf() {}
+  // function onClearChat() {}
+
   // const pdfLinks = text.match(/\[.*?\.pdf\]/g);
   return (
     <div className="flex gap-5">
-      <div className=" bg-opacity-80 bg-slate-900 rounded-2xl shadow border-[2px] border-white  ">
+      <div className=" w-[70%] bg-opacity-80 bg-slate-900 rounded-2xl shadow border-[2px] border-white  ">
         <div className="flex justify-center flex-col items-center gap-5 p-5">
           <div className="flex   justify-center flex-col items-center gap-5 ">
             <img
@@ -105,14 +164,53 @@ const Chatbot = () => {
           {/* chatting */}
           {AiChating.map((chat) => (
             <>
-              <div className="bg-neutral-200 rounded-lg self-end">
+              <div className="bg-neutral-200 rounded-lg self-end p-3">
+                <div className="flex justify-end gap-2">
+                  <ContentCopy className="cursor-pointer" fontSize="small" />
+                  <RestartAlt className="cursor-pointer" fontSize="small" />
+                </div>
                 <div className=" text-black p-3 text-md font-normal ">
                   {chat?.prompt}
                 </div>
               </div>
-              <div className="bg-neutral-200 rounded-lg self-start">
+              <div className="bg-neutral-200 rounded-lg self-start p-3">
+                <div className="flex justify-end gap-2">
+                  <LightbulbOutlined
+                    onClick={() => onPdfActiveResponse(chat?.id, 0)}
+                    className="cursor-pointer"
+                    fontSize="small"
+                  />
+                  <DocumentScannerOutlined
+                    onClick={() => onPdfActiveResponse(chat?.id, 1)}
+                    className="cursor-pointer"
+                    fontSize="small"
+                  />
+                </div>
                 <div className=" text-black p-3 text-md font-normal ">
+                  {/* <DotLoader /> */}
                   {chat?.response?.answer}
+                </div>
+                <div className="flex gap-2 px-3 flex-wrap">
+                  <span className="font-bold text-sm">Citations :</span>
+
+                  {chat?.pdfFiles?.map((item, index) => (
+                    <div
+                      onClick={() => {
+                        setActivePdfViewCitationName(item);
+                        onPdfActiveResponse(chat?.id, 2);
+                      }}
+                      key={index}
+                      className="bg-blue-200 px-3 rounded hover:underline"
+                    >
+                      {item}
+                    </div>
+                  ))}
+                  {/* <div className="bg-blue-200 px-3 rounded hover:underline">
+                    1. English Leaflet - Farm pond-3.pdf
+                  </div>
+                  <div className="bg-blue-200 px-3 rounded hover:underline">
+                    1. English Leaflet - Farm pond-3.pdf
+                  </div> */}
                 </div>
               </div>
             </>
@@ -120,7 +218,7 @@ const Chatbot = () => {
 
           {/* FIle uploader  */}
 
-          <div className="flex items-center justify-center w-full">
+          {/* <div className="flex items-center justify-center w-full">
             <label
               htmlFor="dropzone-file"
               className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -156,7 +254,10 @@ const Chatbot = () => {
                 className="hidden"
               />
             </label>
-          </div>
+          </div> */}
+
+          {/* Second file uploader */}
+          <FileUploader />
 
           {/* inputs */}
           <span>{textFieldValue}</span>
@@ -182,7 +283,11 @@ const Chatbot = () => {
         </div>
       </div>
       <div className="w-96    bg-opacity-80 bg-slate-900 rounded-2xl shadow border-[2px]  border-white ">
-       <PdfResponseTab />
+        <PdfResponseTab
+          activeIds={PdfResponseTabActiveId}
+          activePdf={activePdfViewCitationName}
+          response={AiChating}
+        />
       </div>
     </div>
   );
