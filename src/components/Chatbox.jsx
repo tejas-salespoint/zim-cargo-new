@@ -9,6 +9,7 @@ import PdfResponseTab from "./PdfResponseTab";
 import FileUploader from "./FileUploader";
 import {
   ContentCopy,
+  DeleteOutlined,
   DocumentScannerOutlined,
   LightbulbOutlined,
   RestartAlt,
@@ -28,7 +29,8 @@ const Chatbot = () => {
 
   const addValueToAiChating = async () => {
     console.log("run run");
-
+    console.log(textFieldValue)
+    console.log(typeof textFieldValue)
     // todo :: extract pdf files
     function extractPDFFilesFromDataPoints(dataPoints) {
       const pdfFiles = [];
@@ -117,6 +119,19 @@ const Chatbot = () => {
     setPdfResponseTabActiveId(idObject);
   }
 
+  function onCopy(prompt) {
+    setTextFieldValue(prompt);
+  }
+
+  function onRepeat(prompt) {
+    setTextFieldValue(prompt);
+    addValueToAiChating();
+  }
+
+  function onClearChat() {
+    setAiChating([]);
+  }
+
   // function onCopy() {}
   // function onRefetch() {}
   // function onShowThoughtProcess() {}
@@ -126,9 +141,12 @@ const Chatbot = () => {
 
   // const pdfLinks = text.match(/\[.*?\.pdf\]/g);
   return (
-    <div className="flex gap-5">
-      <div className=" w-[70%] bg-opacity-80 bg-slate-900 rounded-2xl shadow border-[2px] border-white  ">
+    <div className="flex gap-5 ps-3">
+      <div className="   bg-opacity-80 bg-slate-900 rounded-2xl shadow border-[2px] border-white  ">
         <div className="flex justify-center flex-col items-center gap-5 p-5">
+
+          {
+            AiChating.length === 0 && 
           <div className="flex   justify-center flex-col items-center gap-5 ">
             <img
               className="h-16 w-16"
@@ -144,10 +162,11 @@ const Chatbot = () => {
 
             {/* todo :: suggesting qustions  */}
 
-            {AiChating.length === 0 && (
+            { !pdfUploadActive && AiChating.length === 0 && (
               <div className="flex gap-4">
                 {SuggestedQuestions.map((ques) => (
                   <QuestionCard
+                  
                     key={ques.id}
                     question={ques.question}
                     value={textFieldValue}
@@ -158,6 +177,7 @@ const Chatbot = () => {
               </div>
             )}
           </div>
+          }
 
           {/*  todo :: chatting responses */}
 
@@ -166,8 +186,17 @@ const Chatbot = () => {
             <>
               <div className="bg-neutral-200 rounded-lg self-end p-3">
                 <div className="flex justify-end gap-2">
-                  <ContentCopy className="cursor-pointer" fontSize="small" />
-                  <RestartAlt className="cursor-pointer" fontSize="small" />
+                  <ContentCopy
+                    onClick={() => onCopy(chat?.prompt)}
+                    className="cursor-pointer"
+                    fontSize="small"
+                  />
+                  <RestartAlt
+                  type="submit"
+                    onClick={() => onRepeat(chat?.prompt)}
+                    className="cursor-pointer"
+                    fontSize="small"
+                  />
                 </div>
                 <div className=" text-black p-3 text-md font-normal ">
                   {chat?.prompt}
@@ -257,7 +286,7 @@ const Chatbot = () => {
           </div> */}
 
           {/* Second file uploader */}
-          <FileUploader />
+          {pdfUploadActive && <FileUploader />}
 
           {/* inputs */}
           <span>{textFieldValue}</span>
@@ -273,11 +302,19 @@ const Chatbot = () => {
             Add Value
           </button>
           {/* toggle */}
-          <div className="self-start">
+          <div className="w-full flex justify-between items-center">
             <ToggleButton
               value={pdfUploadActive}
               setValue={setPdfUploadActive}
             />
+
+            <div
+              className="flex items-center gap-1 cursor-pointer"
+              onClick={onClearChat}
+            >
+              <DeleteOutlined fontSize="medium" className="!fill-white" />
+              <span className="text-white font-medium">Clear Chat</span>
+            </div>
             {/* <ToggleSwitch checked={pdfUploadActive} label="Toggle me" onChange={setPdfUploadActive} /> */}
           </div>
         </div>

@@ -51,7 +51,7 @@ const FileUploader = () => {
 
   return (
     <>
-      <div className="p-3 md:w-1/2 w-[360px] rounded-md cursor-pointer ">
+      <div className="p-3  w-full rounded-md cursor-pointer ">
         <span className="flex justify-center items-center cursor-pointer bg-white text-[12px] mb-1 text-red-500">
           {message}
         </span>
