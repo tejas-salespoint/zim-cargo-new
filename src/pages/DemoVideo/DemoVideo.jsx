@@ -10,7 +10,7 @@ const DemoVideo = () => {
   const playerRef = React.useRef(null);
 
   const videoJsOptions = {
-    autoplay: true,
+    autoplay: false,
     controls: true,
     responsive: true,
     fluid: true,
