@@ -11,19 +11,19 @@ export const MenuListing = [
     {
         id: 1,
         path: '/',
-        name: 'Home',
+        name: 'Landing Screen',
         icon: HomeIcon,
     },
     {
         id: 2,
         path: '/chatbot',
-        name: 'Chatbot',
+        name: 'Azure OpenAI Chatbot for Enterprise Data',
         icon: SmartToyRoundedIcon,
     },
     {
         id: 3,
         path: '/powerbi',
-        name: 'Power Bi',
+        name: 'Analytics with Power BI',
         icon: PowerBiIcon,
         submenu: [
             {
@@ -41,19 +41,24 @@ export const MenuListing = [
                 name: "Freight Forwarding Report",
                 path: '/freight_forwarding_report',
             },
+            {
+                id: 34,
+                name: "Competitor Analysis Report",
+                path: '/competitor_analysis_report',
+            },
         ],
 
     },
     {
         id: 4,
         path: '/video',
-        name: 'Video',
+        name: 'Microsoft Fabric Copilot for Power BI',
         icon: VideoIcon,
     },
-    {
-        id: 5,
-        path: '/test',
-        name: 'Test',
-        icon: TestIcon,
-    },
+    // {
+    //     id: 5,
+    //     path: '/test',
+    //     name: 'Test',
+    //     icon: TestIcon,
+    // },
 ]

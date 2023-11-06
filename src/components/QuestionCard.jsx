@@ -12,7 +12,7 @@ const QuestionCard = ({ question, value, setValue, submitFunction }) => {
 
 
   return (
-    <div className="w-80 h-40  bg-neutral-200 rounded-lg cursor-pointer">
+    <div className="w-80 h-42 bg-neutral-200 rounded-lg cursor-pointer">
       <button
         type="submit"
         onClick={onClick}

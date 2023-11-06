@@ -144,7 +144,9 @@ export default function PdfResponseTab({ activeIds, activePdf, response }) {
           <iframe
             className=" rounded  "
             title="Citation"
-            src="https://enterprise-chatbot-001.azurewebsites.net/api/content/2452Annual_Master_Circular_Hindi-2021-22_6Jan-15.pdf?container=9e2a2410"
+            src={` https://func-openai-search-002.azurewebsites.net/api/content/${activePdf}?container=zim-container`}
+
+           
             width="100%"
             height="810px"
             style={{ marginTop: "12px" }}

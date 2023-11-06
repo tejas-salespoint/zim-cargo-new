@@ -1,14 +1,14 @@
 export const SuggestedQuestions = [
     {
         'id': 1,
-        'question': "What are the positioning variables that need to be identified by the retailer?"
+        'question': "What measures has the company taken to adapt to supply and demand trends in the container shipping industry?"
     },
     {
         'id': 2,
-        'question': "How can retailers develop a compelling competitive advantage?"
+        'question': "How did ZIM evolve into a global container shipping company?"
     },
     {
         'id': 3,
-        'question': "How do specialty stores differentiate themselves from other retailers?"
+        'question': "How does ZIM monitor and optimize fuel consumption, and what actions are taken to reduce energy and fuel usage on its vessels?"
     },
 ]

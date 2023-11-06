@@ -7,11 +7,11 @@ import TransparentTopBar from "../../components/TransparentTopBar";
 const ChatBot = () => {
   return (
     <Layout>
-      <TransparentTopBar />
+      <TransparentTopBar text={" Azure OpenAi + Congnitive Search "} />
       <div className="flex justify-center  items-center my-20">
         <Chatbot />
       </div>
-        <ChatResponseBox />
+   
     </Layout>
   );
 };
