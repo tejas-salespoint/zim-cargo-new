@@ -8,7 +8,7 @@ const ChatBot = () => {
   return (
     <Layout>
       <TransparentTopBar />
-      <div className="flex justify-center items-center my-20">
+      <div className="flex justify-center  items-center my-20">
         <Chatbot />
       </div>
         <ChatResponseBox />

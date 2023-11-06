@@ -38,26 +38,24 @@ function a11yProps(index) {
   };
 }
 
-export default function PdfResponseTab({ activeIds, activePdf , response }) {
+export default function PdfResponseTab({ activeIds, activePdf, response }) {
   // todo :: practice
 
-  console.log(activeIds)
-  console.log(response)
-
-
+  console.log(activeIds);
+  console.log(response);
 
   const [value, setValue] = React.useState(activeIds?.tabId || 1);
 
   React.useEffect(() => {
-setValue(activeIds?.tabId)
-  },[activeIds])
+    setValue(activeIds?.tabId);
+  }, [activeIds]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
-    <Box className="!p-0 " sx={{ width: "100%", padding: "0" }}>
+    <Box className="!p-0 ">
       <Box sx={{ borderBottom: 1, borderColor: "divider", padding: 0 }}>
         <Tabs
           value={value}
@@ -88,7 +86,7 @@ setValue(activeIds?.tabId)
           />
         </Tabs>
       </Box>
-      <CustomTabPanel value={value} index={0}>
+      <CustomTabPanel className="!h-[70vh] m-3" value={value} index={0}>
         {/* {response[0].response?.thoughts.map((data, index) => (
           <div key={index} className="bg-white p-3 m-3 rounded">
             {data}
@@ -102,7 +100,7 @@ setValue(activeIds?.tabId)
             .map((item, index) => (
               <div
                 key={index}
-                className="bg-white m-3 rounded p-3"
+                className="bg-white  rounded p-3 scroll !h-[70vh] overflow-y-scroll"
                 dangerouslySetInnerHTML={{ __html: item?.response?.thoughts }}
               ></div>
             ))
@@ -110,7 +108,9 @@ setValue(activeIds?.tabId)
 
         {/* {response[0].response?.thoughts} */}
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
+      <CustomTabPanel className="!h-[70vh] m-3" value={value} index={1}>
+        <div className="!h-[70vh] overflow-y-scroll">
+
         {
           // eslint-disable-next-line react/prop-types
           response
@@ -118,7 +118,10 @@ setValue(activeIds?.tabId)
             .map((item) => (
               <>
                 {item?.response?.data_points?.map((data, index) => (
-                  <div key={index} className="bg-white p-3 m-3 rounded">
+                  <div
+                    key={index}
+                    className="bg-white p-3 rounded mb-3"
+                  >
                     <div className="text-lg font-bold ">
                       {data?.split(".pdf:")[0]}
                     </div>
@@ -128,21 +131,25 @@ setValue(activeIds?.tabId)
               </>
             ))
         }
+        </div>
       </CustomTabPanel>
       <CustomTabPanel
-        className="!m-0 max-h-[500px] overflow-y-auto "
+      className="!h-[70vh] m-3"
+        // className="!m-0  max-h-[500px] overflow-y-auto "
         value={value}
         index={2}
       >
-        <span>{activePdf}</span>
-        <iframe
-          className=" rounded "
-          title="Citation"
-          src="https://enterprise-chatbot-001.azurewebsites.net/api/content/2452Annual_Master_Circular_Hindi-2021-22_6Jan-15.pdf?container=9e2a2410"
-          width="100%"
-          height="810px"
-          style={{ marginTop: "12px" }}
-        />
+        {/* <span>{activePdf}</span> */}
+        <div className="!h-[70vh] overflow-y-scroll">
+          <iframe
+            className=" rounded  "
+            title="Citation"
+            src="https://enterprise-chatbot-001.azurewebsites.net/api/content/2452Annual_Master_Circular_Hindi-2021-22_6Jan-15.pdf?container=9e2a2410"
+            width="100%"
+            height="810px"
+            style={{ marginTop: "12px" }}
+          />
+        </div>
       </CustomTabPanel>
     </Box>
   );

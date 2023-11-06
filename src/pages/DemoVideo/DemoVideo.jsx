@@ -5,6 +5,7 @@ import videojs from "video.js"
 
 import 'video.js/dist/video-js.css';
 import VideoJS from "../../components/VideoJs";
+import TransparentTopBar from "../../components/TransparentTopBar";
 
 const DemoVideo = () => {
   const playerRef = React.useRef(null);
@@ -34,6 +35,7 @@ const DemoVideo = () => {
   };
   return (
     <Layout>
+       <TransparentTopBar />
      <div className="max-w-screen-xl align-middle ">
 
       <VideoJS  options={videoJsOptions} onReady={handlePlayerReady} />

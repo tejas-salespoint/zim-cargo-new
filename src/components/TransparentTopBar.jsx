@@ -12,14 +12,14 @@ const TransparentTopBar = () => {
           <LockReset />
           Reset Demo
         </div>
-        <div className="text-white text-lg flex justify-between items-center gap-1 cursor-pointer">
+        {/* <div className="text-white text-lg flex justify-between items-center gap-1 cursor-pointer">
           <ChatOutlined />
           Chat
         </div>
         <div className="text-white text-lg flex justify-between items-center gap-1 cursor-pointer">
           <SettingsOutlined />
           Developer Settings
-        </div>
+        </div> */}
       </div>
     </div>
   );

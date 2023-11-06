@@ -15,7 +15,7 @@ import {
   RestartAlt,
 } from "@mui/icons-material";
 
-// const apiUrl = https://func-openai-search-002.azurewebsites.net/api/chat
+// const apiUrl = "https://func-openai-search-002.azurewebsites.net/api/chat"
 const apiUrl =
   "https://raw.githubusercontent.com/tejasghlade/json_data_api_test/main/zim_demo_get_api";
 
@@ -130,7 +130,10 @@ const Chatbot = () => {
 
   function onClearChat() {
     setAiChating([]);
+    setPdfResponseTabActiveId(null);
   }
+
+  
 
   // function onCopy() {}
   // function onRefetch() {}
@@ -141,10 +144,9 @@ const Chatbot = () => {
 
   // const pdfLinks = text.match(/\[.*?\.pdf\]/g);
   return (
-    <div className="flex gap-5 ps-3">
-      <div className="   bg-opacity-80 bg-slate-900 rounded-2xl shadow border-[2px] border-white  ">
-        <div className="flex justify-center flex-col items-center gap-5 p-5">
-
+    <div className="flex w-full flex-row items-start gap-5 ps-3">
+      <div className="!min-w-[70%] !max-w-[70%]  bg-opacity-80 bg-slate-900 rounded-2xl shadow border-[2px] border-white  ">
+        <div className="flex  justify-center flex-col items-center gap-5 p-5">
           {
             AiChating.length === 0 && 
           <div className="flex   justify-center flex-col items-center gap-5 ">
@@ -203,10 +205,10 @@ const Chatbot = () => {
                 </div>
               </div>
               <div className="bg-neutral-200 rounded-lg self-start p-3">
-                <div className="flex justify-end gap-2">
+                <div className="flex justify-end gap-2 ">
                   <LightbulbOutlined
                     onClick={() => onPdfActiveResponse(chat?.id, 0)}
-                    className="cursor-pointer"
+                    className="cursor-pointer !fill-blue-700" 
                     fontSize="small"
                   />
                   <DocumentScannerOutlined
@@ -289,18 +291,18 @@ const Chatbot = () => {
           {pdfUploadActive && <FileUploader />}
 
           {/* inputs */}
-          <span>{textFieldValue}</span>
+          {/* <span>{textFieldValue}</span> */}
           <InputField
             value={textFieldValue}
             setValue={setTextFieldValue}
             submitFunction={addValueToAiChating}
           />
-          <button
+          {/* <button
             className="text-white bg-red-500 p-5"
             onClick={addValueToAiChating}
           >
             Add Value
-          </button>
+          </button> */}
           {/* toggle */}
           <div className="w-full flex justify-between items-center">
             <ToggleButton
@@ -319,7 +321,7 @@ const Chatbot = () => {
           </div>
         </div>
       </div>
-      <div className="w-96    bg-opacity-80 bg-slate-900 rounded-2xl shadow border-[2px]  border-white ">
+      <div className="!w-[30%]     bg-opacity-80 bg-slate-900 rounded-2xl shadow border-[2px]  border-white ">
         <PdfResponseTab
           activeIds={PdfResponseTabActiveId}
           activePdf={activePdfViewCitationName}
