@@ -15,9 +15,9 @@ import {
   RestartAlt,
 } from "@mui/icons-material";
 
-// const apiUrl = "https://func-openai-search-002.azurewebsites.net/api/chat"
-const apiUrl =
-  "https://raw.githubusercontent.com/tejasghlade/json_data_api_test/main/zim_demo_get_api";
+const apiUrl = "https://func-openai-search-002.azurewebsites.net/api/chat"
+// const apiUrl =
+//   "https://raw.githubusercontent.com/tejasghlade/json_data_api_test/main/zim_demo_get_api";
 
 const Chatbot = () => {
   const [AiChating, setAiChating] = useState([]);
