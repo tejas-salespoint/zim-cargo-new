@@ -16,7 +16,7 @@ const DemoVideo = () => {
     fluid: true,
     sources: [
       {
-        src: "http://localhost:5173/v2_with%20audio%20final.mp4",
+        src: "https://zimdemo.netlify.app/v2_with%20audio%20final.mp4",
         type: "video/mp4",
       },
     ],
