@@ -14,3 +14,10 @@ body {
   /* font-family: 'Magistral Honesty'; */
 }
 
+.report-style-class {
+  height:  98vh !important;
+}
+
+.Embed-container {
+  height:  98vh !important;
+}

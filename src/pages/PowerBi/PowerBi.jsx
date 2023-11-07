@@ -1,6 +1,7 @@
 import { models } from "powerbi-client";
 import Layout from "../../components/Layout";
 import { PowerBIEmbed } from "powerbi-client-react";
+import { useEffect, useState } from "react";
 
 // https://app.powerbi.com/reportEmbed?reportId=a4eef5c8-d937-41b6-90aa-24620f8c1061&autoAuth=true&ctid=f94768c8-8714-4abe-8e2d-37a64b18216a
 
@@ -8,6 +9,86 @@ import { PowerBIEmbed } from "powerbi-client-react";
   /* <iframe title="Cargo Shipments Report" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=a4eef5c8-d937-41b6-90aa-24620f8c1061&autoAuth=true&ctid=f94768c8-8714-4abe-8e2d-37a64b18216a" frameborder="0" allowFullScreen="true"></iframe> */
 }
 const PowerBi = () => {
+  // API end-point url to get embed config for a sample report
+  const sampleReportUrl =
+    "https://app.powerbi.com/reportEmbed?reportId=8be4de4e-c2ec-43f7-8245-81ad4d8be34c&autoAuth=true&ctid=f94768c8-8714-4abe-8e2d-37a64b18216a&filterPaneEnabled=false&navContentPaneEnabled=false&toolbarEnabled=false&pageName=Cargo%20Global%20Network%20Report";
+
+  const [sampleReportConfig, setReportConfig] = useState({
+    type: "report",
+    embedUrl: undefined,
+    tokenType: models.TokenType.Embed,
+    accessToken: undefined,
+    settings: {
+      panes: {
+        filters: {
+          expanded: false,
+          visible: false,
+        },
+        pageNavigation : {
+          visible : false
+        }
+      },
+      background: models.BackgroundType.Transparent,
+    },
+  });
+
+  // Map of event handlers to be applied to the embedding report
+  const eventHandlersMap = new Map([
+    [
+      "loaded",
+      function () {
+        console.log("Report has loaded");
+      },
+    ],
+    [
+      "rendered",
+      function () {
+        console.log("Report has rendered");
+
+        // Update display message
+        // setMessage('The report is rendered')
+      },
+    ],
+    [
+      "error",
+      function (event) {
+        if (event) {
+          console.error("error", event.detail);
+        }
+      },
+    ],
+  ]);
+
+  // Fetch sample report's config (eg. embedUrl and AccessToken) for embedding
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const mockSignIn = async () => {
+    // Fetch sample report's embed config
+    const reportConfigResponse = await fetch(sampleReportUrl);
+
+    if (!reportConfigResponse.ok) {
+      console.error(
+        `Failed to fetch config for report. Status: ${reportConfigResponse.status} ${reportConfigResponse.statusText}`
+      );
+      return;
+    }
+
+    const reportConfig = await reportConfigResponse.json();
+
+    // Update display message
+    // setMessage('The access token is successfully set. Loading the Power BI report')
+
+    // Set the fetched embedUrl and embedToken in the report config
+    setReportConfig({
+      ...sampleReportConfig,
+      embedUrl: reportConfig.EmbedUrl,
+      accessToken: reportConfig.EmbedToken.Token,
+    });
+  };
+
+  useEffect(() => {
+    mockSignIn();
+  }, [mockSignIn]);
+
   return (
     <Layout>
       <div>
@@ -17,27 +98,27 @@ const PowerBi = () => {
           src="https://playground.powerbi.com/sampleReportEmbed"
         ></iframe> */}
 
-        <iframe
+        {/* <iframe
           className="h-screen w-full border-none"
           title="Cargo Shipments Report"
           src="https://app.powerbi.com/reportEmbed?reportId=a4eef5c8-d937-41b6-90aa-24620f8c1061&ctid=f94768c8-8714-4abe-8e2d-37a64b18216a&filterPaneEnabled=false&navContentPaneEnabled=false&toolbarEnabled=false&pageName=Cargo%20Shipments%20Report"
           frameBorder="0"
-          allowFullScreen="true"
+          allowFullScreen={true}
         ></iframe>
         <iframe
           className="h-screen w-full border-none"
           title="Cargo Shipments Report"
           src="https://app.powerbi.com/reportEmbed?reportId=a4eef5c8-d937-41b6-90aa-24620f8c1061&autoAuth=true&ctid=f94768c8-8714-4abe-8e2d-37a64b18216a&filterPaneEnabled=false&navContentPaneEnabled=false&toolbarEnabled=false&pageName=Cargo%20Global%20Network%20Report"
           frameBorder="0"
-          allowFullScreen="true"
+          allowFullScreen={true}
         ></iframe>
         <iframe
           className="h-screen w-full border-none"
           title="Cargo Shipments Report"
           src="https://app.powerbi.com/reportEmbed?reportId=a4eef5c8-d937-41b6-90aa-24620f8c1061&autoAuth=true&ctid=f94768c8-8714-4abe-8e2d-37a64b18216a&filterPaneEnabled=false&navContentPaneEnabled=false&toolbarEnabled=false&pageName=Freight%20Forwarding%20Report"
           frameBorder="0"
-          allowFullScreen="true"
-        ></iframe>
+          allowFullScreen={true}
+        ></iframe> */}
       </div>
       {/* <PowerBIEmbed
         embedConfig={{
@@ -86,6 +167,17 @@ const PowerBi = () => {
           this.report = embeddedReport;
         }}
       /> */}
+      <div className="w-full h-[100vh]">
+        <PowerBIEmbed
+         className="w-full !h-[100vh]"
+          embedConfig={sampleReportConfig}
+          eventHandlers={eventHandlersMap}
+          cssClassName={"report-style-class"}
+          getEmbeddedComponent={(embeddedReport) => {
+            window.report = embeddedReport;
+          }}
+        />
+      </div>
     </Layout>
   );
 };

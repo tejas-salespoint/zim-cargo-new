@@ -37,7 +37,7 @@ const Sidebar = () => {
                   to={menu.path}
                   className="flex group items-center  text-gray-900 rounded-lg dark:text-white  group"
                 >
-                  {menu.icon && <menu.icon />}{" "}
+                  {menu.icon && <menu.icon className="!fill-white" />}{" "}
                   {/* Render the icon if it exists */}
                 </Link>
 

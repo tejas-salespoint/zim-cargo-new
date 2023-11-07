@@ -16,7 +16,7 @@ const DemoVideo = () => {
     fluid: true,
     sources: [
       {
-        src: "https://zimdemo.netlify.app/v2_with%20audio%20final.mp4",
+        src: "https://daiindustry.blob.core.windows.net/daistrapi/v2_with audio final (1).mp4",
         type: "video/mp4",
       },
     ],
@@ -38,7 +38,9 @@ const DemoVideo = () => {
     <Layout>
       <TransparentTopBar
         text={"Auto report creation using Copilot in Power BI"}
-        link={"https://dxt.fabric.microsoft.com/groups/9126fce8-a0c1-4eb7-96cb-305955005a35/list?experience=power-bi&subfolderId=63"}
+        link={
+          "https://dxt.fabric.microsoft.com/groups/9126fce8-a0c1-4eb7-96cb-305955005a35/list?experience=power-bi&subfolderId=63"
+        }
       />
       <div className="min-h-[86vh] max-h-[90vh] align-middle ">
         <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />
