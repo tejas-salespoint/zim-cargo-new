@@ -34,13 +34,11 @@ const Chatbot = () => {
     const myHeaders = new Headers();
 
     // simulateLoading();
-    console.log("run run");
-    console.log(textFieldValue);
-    console.log(typeof textFieldValue);
+
     // todo :: extract pdf files
     function extractPDFFilesFromDataPoints(dataPoints) {
       const pdfFiles = [];
-      const regex = /[^ ]+\.(pdf)/g; // Regular expression to match PDF file names
+      const regex = /[^ ]+\.pdf/g; // Updated regex to match PDF file names even with spaces
 
       dataPoints?.forEach((dataPoint) => {
         const matches = dataPoint.match(regex);
@@ -122,21 +120,6 @@ const Chatbot = () => {
           //   .map((item) => item.response)[0],
         };
 
-        // if (!newEntry.response) {
-        //   newEntry[response] = {
-        //     data_points: [
-        //       "zim_2022_annual_report_on_form_20f-accessible-15.pdf:  Our business and operating results have been, and will continue to be, affected by worldwide and regional economic and geopolitical challenges, including global economic downturns. In particular, the outbreak of the military conflict between Russia and Ukraine has caused an immediate sharp decline in the financial markets and a sharp increase in energy prices. The continued conflict impedes the global flow of goods, results in product and food shortage, harms economic growth and places more pressure on already rising inflation. Furthermore, freight movement and supply chains in Ukraine and neighboring countries have been, and may continue to be, significantly disrupted. Economic sanctions levied on Russia, its leaders and on Russian oil and oil products may cause further global economic downturns, including additional increases in bunker costs. A further deterioration of the current conflict or other geopolitical instabilities may cause global markets to plummet, affect global trade, increase bunker prices and may have a material adverse effect on our business a financial condition, results of operations and liquidity.",
-        //       "zim_2022_annual_report_on_form_20f-accessible-12.pdf: and adversely from those anticipated in these forward-looking statements as a result of certain factors. Summary of Risk Factors The following is a summary of some of the principal risks we face. The list below is not exhaustive, and investors should read this “Risk factors” section in full. • The container shipping industry is dynamic and volatile and has been marked in recent years by instability and uncertainties as a result of global economic conditions and the many factors that affect supply and demand in the shipping industry, including geopolitical trends, US-China related trade restrictions, regulatory developments, relocation of manufacturing, logistical bottlenecks in certain location along the cargo carriage chain, and, recently, the impact of the COVID-19 pandemic, rising inflation and climbing interest rates and fluctuations in demand for containerized shipping services which could significantly impact freight rates. • The military conflict between Russia and Ukraine or other geopolitical instabilities may cause financial markets to plummet, reduce global trade, increase bunker prices and may have a material adverse effect on our business, financial condition, ",
-        //       "zim_2022_annual_report_on_form_20f-accessible-12.pdf:  • The military conflict between Russia and Ukraine or other geopolitical instabilities may cause financial markets to plummet, reduce global trade, increase bunker prices and may have a material adverse effect on our business, financial condition, results of operations and liquidity. 8 • We charter-in most of our fleet, which makes us more sensitive to fluctuations in the charter market, and as a result of our dependency on the vessel charter market, our costs associated with chartering vessels are unpredictable and could be, in certain circumstances, high even when the freight market is in a downward trend. • Future imbalance between supply of global container ship capacity and demand may limit our ability to operate our vessels profitably. • Limited or unavailable access to ports and means of land transportation, including due to congestion. • Changing trading patterns, trade flows and sharpening trade imbalances, regulatory measures, variable operational costs, such as container storage costs, terminal costs and land transportation costs, including due to the impact of the COVID-19 pandemic, may increase our container repositioning costs.",
-        //     ],
-        //     answer: "Delete file",
-        //     thoughts:
-        //       "Searched for:<br>military conflict between Russia and Ukraine shipping industry company<br><br>Prompt:<br><|im_start|>system<br>Assistant helps the employees with their organisation data which is present in the knowledge base. Be brief in your answers.<br>Answer ONLY with the facts listed in the list of sources below. If there isn't enough information below, say you don't know. Do not generate answers that don't use the sources below. If asking a clarifying question to the user would help, ask the question.<br>For tabular information return it as an html table. Do not return markdown format.<br>If the question is not in English, translate the question to English before generating the search query and reply in the same language as the question.<br>Each source has a name followed by colon and the actual information, always include the source name for each fact you use in the response. Use square brakets to reference the source, e.g. [info1.txt]. Don't combine sources, list each source separately, e.g. [info1.txt][info2.pdf].<br><br><br>Sources:<br>zim_2022_annual_report_on_form_20f-accessible-15.pdf:  Our business and operating results have been, and will continue to be, affected by worldwide and regional economic and geopolitical challenges, including global economic downturns. In particular, the outbreak of the military conflict between Russia and Ukraine has caused an immediate sharp decline in the financial markets and a sharp increase in energy prices. The continued conflict impedes the global flow of goods, results in product and food shortage, harms economic growth and places more pressure on already rising inflation. Furthermore, freight movement and supply chains in Ukraine and neighboring countries have been, and may continue to be, significantly disrupted. Economic sanctions levied on Russia, its leaders and on Russian oil and oil products may cause further global economic downturns, including additional increases in bunker costs. A further deterioration of the current conflict or other geopolitical instabilities may cause global markets to plummet, affect global trade, increase bunker prices and may have a material adverse effect on our business a financial condition, results of operations and liquidity.<br>zim_2022_annual_report_on_form_20f-accessible-12.pdf: and adversely from those anticipated in these forward-looking statements as a result of certain factors. Summary of Risk Factors The following is a summary of some of the principal risks we face. The list below is not exhaustive, and investors should read this “Risk factors” section in full. • The container shipping industry is dynamic and volatile and has been marked in recent years by instability and uncertainties as a result of global economic conditions and the many factors that affect supply and demand in the shipping industry, including geopolitical trends, US-China related trade restrictions, regulatory developments, relocation of manufacturing, logistical bottlenecks in certain location along the cargo carriage chain, and, recently, the impact of the COVID-19 pandemic, rising inflation and climbing interest rates and fluctuations in demand for containerized shipping services which could significantly impact freight rates. • The military conflict between Russia and Ukraine or other geopolitical instabilities may cause financial markets to plummet, reduce global trade, increase bunker prices and may have a material adverse effect on our business, financial condition, <br>zim_2022_annual_report_on_form_20f-accessible-12.pdf:  • The military conflict between Russia and Ukraine or other geopolitical instabilities may cause financial markets to plummet, reduce global trade, increase bunker prices and may have a material adverse effect on our business, financial condition, results of operations and liquidity. 8 • We charter-in most of our fleet, which makes us more sensitive to fluctuations in the charter market, and as a result of our dependency on the vessel charter market, our costs associated with chartering vessels are unpredictable and could be, in certain circumstances, high even when the freight market is in a downward trend. • Future imbalance between supply of global container ship capacity and demand may limit our ability to operate our vessels profitably. • Limited or unavailable access to ports and means of land transportation, including due to congestion. • Changing trading patterns, trade flows and sharpening trade imbalances, regulatory measures, variable operational costs, such as container storage costs, terminal costs and land transportation costs, including due to the impact of the COVID-19 pandemic, may increase our container repositioning costs.<br><|im_end|><br><|im_start|>user<br>How does the military conflict between Russia and Ukraine impact the shipping industry and the company?<br><|im_end|><br><|im_start|>assistant<br><br><br>",
-        //   };
-        // }
-
-        // const pdfFiles = extractPDFFilesFromDataPoints(newEntry?.response?.data_points);
-
         (newEntry["pdfFiles"] = await extractPDFFilesFromDataPoints(
           newEntry?.response?.data_points
         )),
@@ -174,7 +157,7 @@ const Chatbot = () => {
 
   function onRepeat(prompt) {
     setTextFieldValue(prompt);
-    addValueToAiChating();
+    // handleClick();
   }
 
   function onClearChat() {
@@ -186,13 +169,6 @@ const Chatbot = () => {
 
   function onPdfReferenceOpen() {
     setPdfResponseActive(true);
-  }
-
-  function simulateLoading(callback) {
-    // Simulate a loading delay for 2 seconds (you can adjust the time as needed)
-    setTimeout(function () {
-      callback(); // This will be executed after the delay
-    }, 4000); // 2000 milliseconds = 2 seconds
   }
 
   // Example usage:
@@ -208,21 +184,22 @@ const Chatbot = () => {
 
   // todo :: extract pdf files
   function extractPDFFilesFromDataPoints(dataPoints) {
-    const pdfFiles = [];
-    const regex = /[^ ]+\.(pdf)/g; // Regular expression to match PDF file names
+    const pdfNames = dataPoints
+      .map((item) => {
+        const colonIndex = item.indexOf(":");
+        if (colonIndex !== -1) {
+          return item.substring(0, colonIndex).trim();
+        }
+        return null;
+      })
+      .filter(Boolean);
 
-    dataPoints?.forEach((dataPoint) => {
-      const matches = dataPoint.match(regex);
-
-      if (matches) {
-        pdfFiles.push(...matches);
-      }
-    });
-
-    return pdfFiles;
+    return pdfNames;
   }
   const handleClick = async () => {
     try {
+      setLoading(true);
+
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
@@ -251,6 +228,7 @@ const Chatbot = () => {
       const response = await fetch(apiUrl, requestOptions).then((response) =>
         response.json()
       );
+
       const newId = response ? AiChating.length + 1 : 100;
       const newEntry = {
         id: newId,
@@ -266,6 +244,7 @@ const Chatbot = () => {
       );
 
       setAiChating([...AiChating, newEntry]);
+      setLoading(false);
       setTextFieldValue("");
       // const text = await response.json(); // convert the response to text
       // console.log("Response:", text); // print the response text
@@ -299,7 +278,7 @@ const Chatbot = () => {
   }, []);
 
   return (
-    <div className="flex  w-full justify-center flex-row  gap-5 ps-3">
+    <div className="flex  w-full justify-center flex-row  items-start gap-5 ps-3">
       <div
         ref={firstElementRef}
         className="!min-w-[70%] !max-w-[70%]  bg-opacity-80 bg-slate-900 rounded-2xl shadow border-[2px] border-white  "
@@ -312,10 +291,10 @@ const Chatbot = () => {
                 src={secondaryLogo}
                 alt="secondary logo"
               />
-              <div className="w-96 h-10 text-center text-white text-4xl font-normal font-['MagistralBlack']">
+              <div className=" text-center font-magistralBold text-white text-4xl  ">
                 Shipping Companion
               </div>
-              <div className="w-52 h-5 text-center text-white text-2xl font-normal ">
+              <div className="text-center font-magistral text-white text-2xl  ">
                 Ask me something
               </div>
 
@@ -329,7 +308,7 @@ const Chatbot = () => {
                       question={ques.question}
                       value={textFieldValue}
                       setValue={setTextFieldValue}
-                      submitFunction={addValueToAiChating}
+                      submitFunction={handleClick}
                     />
                   ))}
                 </div>
@@ -342,7 +321,7 @@ const Chatbot = () => {
           {/* chatting */}
           {AiChating?.map((chat) => (
             <>
-              <div className="bg-neutral-200 rounded-lg self-end p-3">
+              <div className="bg-neutral-200 w-[70%] rounded-lg self-end p-3">
                 <div className="flex justify-end gap-2">
                   <ContentCopy
                     onClick={() => onCopy(chat?.prompt)}
@@ -356,11 +335,11 @@ const Chatbot = () => {
                     fontSize="small"
                   />
                 </div>
-                <div className=" text-black p-3 text-md font-normal ">
+                <div className=" text-black p-3 text-md font-bold font-magistral tracking-widest ">
                   {chat?.prompt}
                 </div>
               </div>
-              <div className="bg-neutral-200 rounded-lg self-start p-3">
+              <div className="bg-neutral-200 w-[95%] rounded-lg self-start p-3">
                 {/* Generating answer */}
                 <div className="flex justify-end gap-2 ">
                   <LightbulbOutlined
@@ -375,7 +354,7 @@ const Chatbot = () => {
                   />
                 </div>
 
-                <div className=" text-black p-3 text-md font-normal ">
+                <div className=" text-black p-3 text-md font-bold font-magistral tracking-widest ">
                   {/* <DotLoader /> */}
                   {chat?.response?.answer
                     ? chat?.response?.answer
@@ -399,7 +378,7 @@ const Chatbot = () => {
                         onPdfActiveResponse(chat?.id, 2);
                       }}
                       key={index}
-                      className="bg-blue-200 px-3 rounded hover:underline cursor-pointer"
+                      className="bg-blue-200 text-sm font-bold font-magistral tracking-widest  px-3 rounded hover:underline cursor-pointer"
                     >
                       {item}
                     </div>
@@ -417,50 +396,13 @@ const Chatbot = () => {
 
           {/* FIle uploader  */}
 
-          {/* <div className="flex items-center justify-center w-full">
-            <label
-              htmlFor="dropzone-file"
-              className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-            >
-              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <svg
-                  className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 16"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                  />
-                </svg>
-                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-semibold">Click to upload</span> or drag
-                  and drop
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  SVG, PNG, JPG or GIF (MAX. 800x400px)
-                </p>
-              </div>
-              <input
-                accept="[.pdf]"
-                id="dropzone-file"
-                type="file"
-                className="hidden"
-              />
-            </label>
-          </div> */}
-
           {/* Second file uploader */}
           {pdfUploadActive && <FileUploader />}
 
           {/* inputs */}
           {/* <span>{textFieldValue}</span> */}
           <InputField
+            loading={loading}
             value={textFieldValue}
             setValue={setTextFieldValue}
             submitFunction={handleClick}
@@ -481,7 +423,9 @@ const Chatbot = () => {
               onClick={onClearChat}
             >
               <DeleteOutlined fontSize="medium" className="!fill-white" />
-              <span className="text-white font-medium">Clear Chat</span>
+              <span className="text-white font-magistral text-sm tracking-widest font-bold">
+                Clear Chat
+              </span>
             </div>
             {/* <ToggleSwitch checked={pdfUploadActive} label="Toggle me" onChange={setPdfUploadActive} /> */}
           </div>

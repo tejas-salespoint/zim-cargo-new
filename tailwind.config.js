@@ -10,6 +10,11 @@ export default {
       'bg_topbar': "url('/src/assets/bg_topbar.png')",
       'bg_sidebar': "url('/src/assets/bg_sidebar.png')",
     },
+    fontFamily: {
+      magistral: ['Magistral', 'sans-serif'],
+      magistralBold: ['MagistralB', 'sans-serif']
+    }
   },
+
   plugins: [],
 }

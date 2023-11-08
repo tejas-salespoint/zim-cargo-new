@@ -5,9 +5,7 @@ const QuestionCard = ({ question, value, setValue, submitFunction }) => {
     } catch (error) {
       // Handle any errors that may occur during setValue or submitFunction
       console.error("An error occurred:", error);
-    } finally {
-      await submitFunction();
-    }
+    } 
   }
 
 
@@ -16,7 +14,7 @@ const QuestionCard = ({ question, value, setValue, submitFunction }) => {
       <button
         type="submit"
         onClick={onClick}
-        className=" text-black p-5 text-xl font-normal "
+        className=" text-black p-5 text-md font-bold  font-magistral tracking-widest text-start "
       >
         {question}
       </button>

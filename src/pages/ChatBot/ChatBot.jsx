@@ -1,4 +1,4 @@
-import ChatResponseBox from "../../components/ChatResponseBox";
+
 import Chatbot from "../../components/Chatbox";
 import Layout from "../../components/Layout";
 
@@ -8,7 +8,7 @@ const ChatBot = () => {
   return (
     <Layout>
       <TransparentTopBar text={" Azure OpenAi + Congnitive Search "} />
-      <div className="flex justify-center  items-center my-20">
+      <div className="flex justify-center  items-center my-10">
         <Chatbot />
       </div>
    

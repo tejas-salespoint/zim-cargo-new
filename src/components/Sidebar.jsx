@@ -31,7 +31,9 @@ const Sidebar = () => {
           {MenuListing.map((menu) => (
             <div key={menu.id} className="">
               <li
-                className={`group ${ activeMenuItem === menu.path ? 'bg-blue-600' : '' } hover:bg-blue-600 px-4 py-4 flex justify-center items-center  h-14 `}
+                className={`group ${
+                  activeMenuItem === menu.path ? "bg-blue-600" : ""
+                } hover:bg-blue-600 px-4 py-4 flex justify-center items-center  h-14 `}
               >
                 <Link
                   to={menu.path}
@@ -54,7 +56,7 @@ const Sidebar = () => {
                     <li className="h-14 flex  items-center">
                       <Link
                         to={menu.path}
-                        className="block px-4 py-2 text-lg font-semibold  dark:hover:text-white"
+                        className="block px-4 font-magistralBold  tracking-widest py-2  text-lg font-bold  dark:hover:text-white"
                       >
                         {menu.name}
                       </Link>
@@ -67,7 +69,7 @@ const Sidebar = () => {
                       >
                         <Link
                           to={sub.path}
-                          className="block flex justify-center items-center gap-2 px-4 py-2 text-sm  dark:hover:text-white"
+                          className="block font-magistral tracking-widest font-bold flex justify-center items-center gap-2 px-4 py-2 text-sm  dark:hover:text-white"
                         >
                           <LocationCity />
                           {sub.name}

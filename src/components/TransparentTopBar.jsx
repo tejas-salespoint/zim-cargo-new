@@ -4,7 +4,7 @@ import { Button } from "flowbite-react";
 const TransparentTopBar = ({ text, link }) => {
   return (
     <div className="h-14  opacity-40 bg-black flex justify-between items-center px-4">
-      <div className="text-white text-lg ">
+      <div className="text-white text-lg font-magistral tracking-widest font-bold ">
         {/* Azure OpenAi + Congnitive Search */}
         {text}
       </div>

@@ -67,7 +67,7 @@ const FileUploader = () => {
   return (
     <>
       <div className=" w-full rounded-md cursor-pointer ">
-        <span className="flex justify-center items-center cursor-pointer bg-white text-[12px] mb-1 text-green-500">
+        <span className="flex font-magistral tracking-widest font-bold justify-center items-center cursor-pointer bg-white text-[12px] mb-1 text-green-500">
           {message}
         </span>
         <div className="h-32 cursor-pointer w-full overflow-hidden relative shadow-md border-2 items-center rounded-md   border-gray-400 border-dotted">
@@ -83,7 +83,7 @@ const FileUploader = () => {
             <div className="flex flex-col items-center">
               <i className="mdi mdi-folder-open text-[30px] text-gray-400 text-center"></i>
               <Upload />
-              <span className="text-[12px]">{`Drag and Drop a file`}</span>
+              <span className="text-sm font-magistral tracking-widest font-bold ">{`Drag and Drop a file`}</span>
             </div>
           </div>
         </div>
@@ -99,7 +99,9 @@ const FileUploader = () => {
                     <div className="h-12 w-12 ">
                       <img className="w-full h-full rounded" src={pdfImage} />
                     </div>
-                    <span className="truncate w-64">{file.name}</span>
+                    <span className="truncate w-70 text-sm font-magistral tracking-widest font-bold">
+                      {file.name}
+                    </span>
                   </div>
 
                   <div
