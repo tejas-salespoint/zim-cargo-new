@@ -78,7 +78,10 @@ export default function PdfResponseTab({ activeIds, activePdf, response }) {
             {...a11yProps(1)}
           />
           <Tab
-            className={`!text-white !font-sans !font-semibold !text-md !normal-case ${
+            disabled={activePdf ? false : true}
+            className={`!text-white ${
+              activePdf ? "!text-white" : "!text-gray-600"
+            }  !font-sans !font-semibold !text-md !normal-case ${
               value === 2 ? "!bg-opacity-30 !bg-black" : ""
             } !bg-opacity-30  !rounded-tr-2xl  rounded-md `}
             label="Citation"

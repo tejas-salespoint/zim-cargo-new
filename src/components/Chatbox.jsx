@@ -292,7 +292,8 @@ const Chatbot = () => {
                 alt="secondary logo"
               />
               <div className=" text-center font-magistralBold text-white text-4xl  ">
-                Shipping Companion
+                {/* Shipping Companion */}
+                Zim International Shipping & Cargo
               </div>
               <div className="text-center font-magistral text-white text-2xl  ">
                 Ask me something
