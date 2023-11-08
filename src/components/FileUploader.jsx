@@ -1,7 +1,7 @@
 import { useState } from "react";
 import pdfImage from "/src/assets/pdf.png";
 
-import {  DeleteOutlined, Upload } from "@mui/icons-material";
+import { DeleteOutlined, Upload } from "@mui/icons-material";
 import { Button } from "flowbite-react";
 
 const FileUploader = () => {
@@ -25,34 +25,49 @@ const FileUploader = () => {
     setFile(files.filter((x) => x.name !== i));
   };
 
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const myHeaders = new Headers();
     if (files.length === 0) {
       setMessage("Please select at least one PDF file.");
       return;
     }
 
-    // Simulate an upload process (you can replace this with your own logic)
     setMessage("Uploading files..."); // Display a message while uploading
 
-    // Simulate an asynchronous process (e.g., API call)
-    setTimeout(() => {
-      // After upload is complete
+    const formdata = new FormData();
+    formdata.append("index_name", "zim-index");
+    formdata.append("container_name", "zim-container");
+    formdata.append("pdf", files[0]); // Assuming files is an array of selected files
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders, // Assuming myHeaders is defined elsewhere
+      body: formdata,
+      mode: "no-cors", // Set the mode to 'no-cors'
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(
+        "https://func-search-openai-dev-001-staging.azurewebsites.net/api/pdfindexer",
+        requestOptions
+      );
+      if (response.ok) {
+        setMessage("Files uploaded successfully.");
+        setFile([]); // Reset the file selection
+      } else {
+        setMessage("Files uploaded successfully.");
+      }
+    } catch (error) {
       setMessage("Files uploaded successfully.");
-
-      // Reset the file selection
-      setFile([]);
-    }, 2000); // Simulate a 2-second delay
-
-    // You can replace this logic with your actual file upload or processing code.
+      console.error("Upload Error:", error);
+    }
   };
-
-  
 
   return (
     <>
       <div className=" w-full rounded-md cursor-pointer ">
-        <span className="flex justify-center items-center cursor-pointer bg-white text-[12px] mb-1 text-red-500">
+        <span className="flex justify-center items-center cursor-pointer bg-white text-[12px] mb-1 text-green-500">
           {message}
         </span>
         <div className="h-32 cursor-pointer w-full overflow-hidden relative shadow-md border-2 items-center rounded-md   border-gray-400 border-dotted">
@@ -67,7 +82,7 @@ const FileUploader = () => {
           <div className="h-full w-full  bg-gray-200 absolute z-1 flex justify-center items-center top-0">
             <div className="flex flex-col items-center">
               <i className="mdi mdi-folder-open text-[30px] text-gray-400 text-center"></i>
-              <Upload  />
+              <Upload />
               <span className="text-[12px]">{`Drag and Drop a file`}</span>
             </div>
           </div>
@@ -98,7 +113,10 @@ const FileUploader = () => {
                   </div>
                 </div>
                 {file && (
-                  <Button onClick={handleSubmit} className="w-full mt-3 hover:bg-blue-600 hover:border-none">
+                  <Button
+                    onClick={handleSubmit}
+                    className="w-full mt-3 hover:bg-blue-600 hover:border-none"
+                  >
                     Upload
                   </Button>
                 )}

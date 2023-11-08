@@ -110,31 +110,27 @@ export default function PdfResponseTab({ activeIds, activePdf, response }) {
       </CustomTabPanel>
       <CustomTabPanel className="!h-[70vh] m-3" value={value} index={1}>
         <div className="!h-[70vh] overflow-y-scroll">
-
-        {
-          // eslint-disable-next-line react/prop-types
-          response
-            ?.filter((filterId) => filterId?.id === activeIds?.id)
-            .map((item) => (
-              <>
-                {item?.response?.data_points?.map((data, index) => (
-                  <div
-                    key={index}
-                    className="bg-white p-3 rounded mb-3"
-                  >
-                    <div className="text-lg font-bold ">
-                      {data?.split(".pdf:")[0]}
+          {
+            // eslint-disable-next-line react/prop-types
+            response
+              ?.filter((filterId) => filterId?.id === activeIds?.id)
+              .map((item) => (
+                <>
+                  {item?.response?.data_points?.map((data, index) => (
+                    <div key={index} className="bg-white p-3 rounded mb-3">
+                      <div className="text-lg font-bold ">
+                        {data?.split(".pdf:")[0]}
+                      </div>
+                      {data?.split(".pdf:")[1]}
                     </div>
-                    {data?.split(".pdf:")[1]}
-                  </div>
-                ))}
-              </>
-            ))
-        }
+                  ))}
+                </>
+              ))
+          }
         </div>
       </CustomTabPanel>
       <CustomTabPanel
-      className="!h-[70vh] m-3"
+        className="!h-[70vh] m-3"
         // className="!m-0  max-h-[500px] overflow-y-auto "
         value={value}
         index={2}
@@ -145,8 +141,6 @@ export default function PdfResponseTab({ activeIds, activePdf, response }) {
             className=" rounded  "
             title="Citation"
             src={` https://func-openai-search-002.azurewebsites.net/api/content/${activePdf}?container=zim-container`}
-
-           
             width="100%"
             height="810px"
             style={{ marginTop: "12px" }}

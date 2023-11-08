@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import InputField from "./InputField";
 import QuestionCard from "./QuestionCard";
 import ToggleButton from "./ToggleButton";
@@ -16,9 +16,9 @@ import {
 } from "@mui/icons-material";
 import { openAiData } from "../data/fileData";
 
-// const apiUrl = "https://func-openai-search-002.azurewebsites.net/api/chat"
-const apiUrl =
-  "https://raw.githubusercontent.com/tejasghlade/json_data_api_test/main/zim_demo_get_api";
+const apiUrl = "https://func-openai-search-002.azurewebsites.net/api/chat";
+// const apiUrl =
+//   "https://raw.githubusercontent.com/tejasghlade/json_data_api_test/main/zim_demo_get_api";
 
 const Chatbot = () => {
   const [AiChating, setAiChating] = useState([]);
@@ -31,13 +31,7 @@ const Chatbot = () => {
   const [loading, setLoading] = useState(false);
 
   const addValueToAiChating = async () => {
-    setLoading(true);
-    console.log("Start loading...");
-    simulateLoading(function () {
-      console.log("Loading complete.");
-      setLoading(false);
-      // You can put your code here that should execute after the loading delay.
-    });
+    const myHeaders = new Headers();
 
     // simulateLoading();
     console.log("run run");
@@ -64,7 +58,21 @@ const Chatbot = () => {
     }
 
     // Define the POST data
-    const postData = {
+    // const postData = {
+    //   history: [
+    //     {
+    //       user: textFieldValue,
+    //     },
+    //   ],
+    //   approach: "rrr",
+    //   overrides: {},
+    //   index: "zim-index",
+    //   industry: "default",
+    //   container: "zim-container",
+    //   enableExternalDomain: false,
+    // };
+
+    const raw = JSON.stringify({
       history: [
         {
           user: textFieldValue,
@@ -76,6 +84,14 @@ const Chatbot = () => {
       industry: "default",
       container: "zim-container",
       enableExternalDomain: false,
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      // mode: 'no-cors', // Set the mode to 'no-cors'
+      redirect: "follow",
     };
 
     // Define the API endpoint
@@ -83,12 +99,12 @@ const Chatbot = () => {
 
     // Send a POST request
     await axios
-      .get(apiUrl, postData)
+      .get(apiUrl, requestOptions)
       .then(async (response) => {
         // Handle the response data
-        console.log("Response data:", response.data);
+        // console.log("Response data:", response.data);
 
-        const newId = AiChating.length + 1;
+        const newId = response ? AiChating.length + 1 : 100;
 
         // Log the contents of data_points
         // console.log("Data Points:", response?.data?.data_points);
@@ -100,30 +116,26 @@ const Chatbot = () => {
         const newEntry = {
           id: newId,
           prompt: textFieldValue,
-          // response: response?.data,
-          response: openAiData?.questions
-            ?.filter((file) => file.question == textFieldValue)
-            .map((item) => item.response)[0],
+          response: await response?.json(),
+          // response: openAiData?.questions
+          //   ?.filter((file) => file.question == textFieldValue)
+          //   .map((item) => item.response)[0],
         };
 
-        if (!newEntry.response) {
-          newEntry[response] = {
-            data_points: [
-              "zim_2022_annual_report_on_form_20f-accessible-15.pdf:  Our business and operating results have been, and will continue to be, affected by worldwide and regional economic and geopolitical challenges, including global economic downturns. In particular, the outbreak of the military conflict between Russia and Ukraine has caused an immediate sharp decline in the financial markets and a sharp increase in energy prices. The continued conflict impedes the global flow of goods, results in product and food shortage, harms economic growth and places more pressure on already rising inflation. Furthermore, freight movement and supply chains in Ukraine and neighboring countries have been, and may continue to be, significantly disrupted. Economic sanctions levied on Russia, its leaders and on Russian oil and oil products may cause further global economic downturns, including additional increases in bunker costs. A further deterioration of the current conflict or other geopolitical instabilities may cause global markets to plummet, affect global trade, increase bunker prices and may have a material adverse effect on our business a financial condition, results of operations and liquidity.",
-              "zim_2022_annual_report_on_form_20f-accessible-12.pdf: and adversely from those anticipated in these forward-looking statements as a result of certain factors. Summary of Risk Factors The following is a summary of some of the principal risks we face. The list below is not exhaustive, and investors should read this “Risk factors” section in full. • The container shipping industry is dynamic and volatile and has been marked in recent years by instability and uncertainties as a result of global economic conditions and the many factors that affect supply and demand in the shipping industry, including geopolitical trends, US-China related trade restrictions, regulatory developments, relocation of manufacturing, logistical bottlenecks in certain location along the cargo carriage chain, and, recently, the impact of the COVID-19 pandemic, rising inflation and climbing interest rates and fluctuations in demand for containerized shipping services which could significantly impact freight rates. • The military conflict between Russia and Ukraine or other geopolitical instabilities may cause financial markets to plummet, reduce global trade, increase bunker prices and may have a material adverse effect on our business, financial condition, ",
-              "zim_2022_annual_report_on_form_20f-accessible-12.pdf:  • The military conflict between Russia and Ukraine or other geopolitical instabilities may cause financial markets to plummet, reduce global trade, increase bunker prices and may have a material adverse effect on our business, financial condition, results of operations and liquidity. 8 • We charter-in most of our fleet, which makes us more sensitive to fluctuations in the charter market, and as a result of our dependency on the vessel charter market, our costs associated with chartering vessels are unpredictable and could be, in certain circumstances, high even when the freight market is in a downward trend. • Future imbalance between supply of global container ship capacity and demand may limit our ability to operate our vessels profitably. • Limited or unavailable access to ports and means of land transportation, including due to congestion. • Changing trading patterns, trade flows and sharpening trade imbalances, regulatory measures, variable operational costs, such as container storage costs, terminal costs and land transportation costs, including due to the impact of the COVID-19 pandemic, may increase our container repositioning costs.",
-            ],
-            answer: "Delete file",
-            thoughts:
-              "Searched for:<br>military conflict between Russia and Ukraine shipping industry company<br><br>Prompt:<br><|im_start|>system<br>Assistant helps the employees with their organisation data which is present in the knowledge base. Be brief in your answers.<br>Answer ONLY with the facts listed in the list of sources below. If there isn't enough information below, say you don't know. Do not generate answers that don't use the sources below. If asking a clarifying question to the user would help, ask the question.<br>For tabular information return it as an html table. Do not return markdown format.<br>If the question is not in English, translate the question to English before generating the search query and reply in the same language as the question.<br>Each source has a name followed by colon and the actual information, always include the source name for each fact you use in the response. Use square brakets to reference the source, e.g. [info1.txt]. Don't combine sources, list each source separately, e.g. [info1.txt][info2.pdf].<br><br><br>Sources:<br>zim_2022_annual_report_on_form_20f-accessible-15.pdf:  Our business and operating results have been, and will continue to be, affected by worldwide and regional economic and geopolitical challenges, including global economic downturns. In particular, the outbreak of the military conflict between Russia and Ukraine has caused an immediate sharp decline in the financial markets and a sharp increase in energy prices. The continued conflict impedes the global flow of goods, results in product and food shortage, harms economic growth and places more pressure on already rising inflation. Furthermore, freight movement and supply chains in Ukraine and neighboring countries have been, and may continue to be, significantly disrupted. Economic sanctions levied on Russia, its leaders and on Russian oil and oil products may cause further global economic downturns, including additional increases in bunker costs. A further deterioration of the current conflict or other geopolitical instabilities may cause global markets to plummet, affect global trade, increase bunker prices and may have a material adverse effect on our business a financial condition, results of operations and liquidity.<br>zim_2022_annual_report_on_form_20f-accessible-12.pdf: and adversely from those anticipated in these forward-looking statements as a result of certain factors. Summary of Risk Factors The following is a summary of some of the principal risks we face. The list below is not exhaustive, and investors should read this “Risk factors” section in full. • The container shipping industry is dynamic and volatile and has been marked in recent years by instability and uncertainties as a result of global economic conditions and the many factors that affect supply and demand in the shipping industry, including geopolitical trends, US-China related trade restrictions, regulatory developments, relocation of manufacturing, logistical bottlenecks in certain location along the cargo carriage chain, and, recently, the impact of the COVID-19 pandemic, rising inflation and climbing interest rates and fluctuations in demand for containerized shipping services which could significantly impact freight rates. • The military conflict between Russia and Ukraine or other geopolitical instabilities may cause financial markets to plummet, reduce global trade, increase bunker prices and may have a material adverse effect on our business, financial condition, <br>zim_2022_annual_report_on_form_20f-accessible-12.pdf:  • The military conflict between Russia and Ukraine or other geopolitical instabilities may cause financial markets to plummet, reduce global trade, increase bunker prices and may have a material adverse effect on our business, financial condition, results of operations and liquidity. 8 • We charter-in most of our fleet, which makes us more sensitive to fluctuations in the charter market, and as a result of our dependency on the vessel charter market, our costs associated with chartering vessels are unpredictable and could be, in certain circumstances, high even when the freight market is in a downward trend. • Future imbalance between supply of global container ship capacity and demand may limit our ability to operate our vessels profitably. • Limited or unavailable access to ports and means of land transportation, including due to congestion. • Changing trading patterns, trade flows and sharpening trade imbalances, regulatory measures, variable operational costs, such as container storage costs, terminal costs and land transportation costs, including due to the impact of the COVID-19 pandemic, may increase our container repositioning costs.<br><|im_end|><br><|im_start|>user<br>How does the military conflict between Russia and Ukraine impact the shipping industry and the company?<br><|im_end|><br><|im_start|>assistant<br><br><br>",
-          };
-        }
+        // if (!newEntry.response) {
+        //   newEntry[response] = {
+        //     data_points: [
+        //       "zim_2022_annual_report_on_form_20f-accessible-15.pdf:  Our business and operating results have been, and will continue to be, affected by worldwide and regional economic and geopolitical challenges, including global economic downturns. In particular, the outbreak of the military conflict between Russia and Ukraine has caused an immediate sharp decline in the financial markets and a sharp increase in energy prices. The continued conflict impedes the global flow of goods, results in product and food shortage, harms economic growth and places more pressure on already rising inflation. Furthermore, freight movement and supply chains in Ukraine and neighboring countries have been, and may continue to be, significantly disrupted. Economic sanctions levied on Russia, its leaders and on Russian oil and oil products may cause further global economic downturns, including additional increases in bunker costs. A further deterioration of the current conflict or other geopolitical instabilities may cause global markets to plummet, affect global trade, increase bunker prices and may have a material adverse effect on our business a financial condition, results of operations and liquidity.",
+        //       "zim_2022_annual_report_on_form_20f-accessible-12.pdf: and adversely from those anticipated in these forward-looking statements as a result of certain factors. Summary of Risk Factors The following is a summary of some of the principal risks we face. The list below is not exhaustive, and investors should read this “Risk factors” section in full. • The container shipping industry is dynamic and volatile and has been marked in recent years by instability and uncertainties as a result of global economic conditions and the many factors that affect supply and demand in the shipping industry, including geopolitical trends, US-China related trade restrictions, regulatory developments, relocation of manufacturing, logistical bottlenecks in certain location along the cargo carriage chain, and, recently, the impact of the COVID-19 pandemic, rising inflation and climbing interest rates and fluctuations in demand for containerized shipping services which could significantly impact freight rates. • The military conflict between Russia and Ukraine or other geopolitical instabilities may cause financial markets to plummet, reduce global trade, increase bunker prices and may have a material adverse effect on our business, financial condition, ",
+        //       "zim_2022_annual_report_on_form_20f-accessible-12.pdf:  • The military conflict between Russia and Ukraine or other geopolitical instabilities may cause financial markets to plummet, reduce global trade, increase bunker prices and may have a material adverse effect on our business, financial condition, results of operations and liquidity. 8 • We charter-in most of our fleet, which makes us more sensitive to fluctuations in the charter market, and as a result of our dependency on the vessel charter market, our costs associated with chartering vessels are unpredictable and could be, in certain circumstances, high even when the freight market is in a downward trend. • Future imbalance between supply of global container ship capacity and demand may limit our ability to operate our vessels profitably. • Limited or unavailable access to ports and means of land transportation, including due to congestion. • Changing trading patterns, trade flows and sharpening trade imbalances, regulatory measures, variable operational costs, such as container storage costs, terminal costs and land transportation costs, including due to the impact of the COVID-19 pandemic, may increase our container repositioning costs.",
+        //     ],
+        //     answer: "Delete file",
+        //     thoughts:
+        //       "Searched for:<br>military conflict between Russia and Ukraine shipping industry company<br><br>Prompt:<br><|im_start|>system<br>Assistant helps the employees with their organisation data which is present in the knowledge base. Be brief in your answers.<br>Answer ONLY with the facts listed in the list of sources below. If there isn't enough information below, say you don't know. Do not generate answers that don't use the sources below. If asking a clarifying question to the user would help, ask the question.<br>For tabular information return it as an html table. Do not return markdown format.<br>If the question is not in English, translate the question to English before generating the search query and reply in the same language as the question.<br>Each source has a name followed by colon and the actual information, always include the source name for each fact you use in the response. Use square brakets to reference the source, e.g. [info1.txt]. Don't combine sources, list each source separately, e.g. [info1.txt][info2.pdf].<br><br><br>Sources:<br>zim_2022_annual_report_on_form_20f-accessible-15.pdf:  Our business and operating results have been, and will continue to be, affected by worldwide and regional economic and geopolitical challenges, including global economic downturns. In particular, the outbreak of the military conflict between Russia and Ukraine has caused an immediate sharp decline in the financial markets and a sharp increase in energy prices. The continued conflict impedes the global flow of goods, results in product and food shortage, harms economic growth and places more pressure on already rising inflation. Furthermore, freight movement and supply chains in Ukraine and neighboring countries have been, and may continue to be, significantly disrupted. Economic sanctions levied on Russia, its leaders and on Russian oil and oil products may cause further global economic downturns, including additional increases in bunker costs. A further deterioration of the current conflict or other geopolitical instabilities may cause global markets to plummet, affect global trade, increase bunker prices and may have a material adverse effect on our business a financial condition, results of operations and liquidity.<br>zim_2022_annual_report_on_form_20f-accessible-12.pdf: and adversely from those anticipated in these forward-looking statements as a result of certain factors. Summary of Risk Factors The following is a summary of some of the principal risks we face. The list below is not exhaustive, and investors should read this “Risk factors” section in full. • The container shipping industry is dynamic and volatile and has been marked in recent years by instability and uncertainties as a result of global economic conditions and the many factors that affect supply and demand in the shipping industry, including geopolitical trends, US-China related trade restrictions, regulatory developments, relocation of manufacturing, logistical bottlenecks in certain location along the cargo carriage chain, and, recently, the impact of the COVID-19 pandemic, rising inflation and climbing interest rates and fluctuations in demand for containerized shipping services which could significantly impact freight rates. • The military conflict between Russia and Ukraine or other geopolitical instabilities may cause financial markets to plummet, reduce global trade, increase bunker prices and may have a material adverse effect on our business, financial condition, <br>zim_2022_annual_report_on_form_20f-accessible-12.pdf:  • The military conflict between Russia and Ukraine or other geopolitical instabilities may cause financial markets to plummet, reduce global trade, increase bunker prices and may have a material adverse effect on our business, financial condition, results of operations and liquidity. 8 • We charter-in most of our fleet, which makes us more sensitive to fluctuations in the charter market, and as a result of our dependency on the vessel charter market, our costs associated with chartering vessels are unpredictable and could be, in certain circumstances, high even when the freight market is in a downward trend. • Future imbalance between supply of global container ship capacity and demand may limit our ability to operate our vessels profitably. • Limited or unavailable access to ports and means of land transportation, including due to congestion. • Changing trading patterns, trade flows and sharpening trade imbalances, regulatory measures, variable operational costs, such as container storage costs, terminal costs and land transportation costs, including due to the impact of the COVID-19 pandemic, may increase our container repositioning costs.<br><|im_end|><br><|im_start|>user<br>How does the military conflict between Russia and Ukraine impact the shipping industry and the company?<br><|im_end|><br><|im_start|>assistant<br><br><br>",
+        //   };
+        // }
 
         // const pdfFiles = extractPDFFilesFromDataPoints(newEntry?.response?.data_points);
-
-        {
-          console.log(newEntry);
-        }
 
         (newEntry["pdfFiles"] = await extractPDFFilesFromDataPoints(
           newEntry?.response?.data_points
@@ -193,9 +205,105 @@ const Chatbot = () => {
   // function onClearChat() {}
 
   // const pdfLinks = text.match(/\[.*?\.pdf\]/g);
+
+  // todo :: extract pdf files
+  function extractPDFFilesFromDataPoints(dataPoints) {
+    const pdfFiles = [];
+    const regex = /[^ ]+\.(pdf)/g; // Regular expression to match PDF file names
+
+    dataPoints?.forEach((dataPoint) => {
+      const matches = dataPoint.match(regex);
+
+      if (matches) {
+        pdfFiles.push(...matches);
+      }
+    });
+
+    return pdfFiles;
+  }
+  const handleClick = async () => {
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      const raw = JSON.stringify({
+        history: [
+          {
+            user: textFieldValue,
+          },
+        ],
+        approach: "rrr",
+        overrides: {},
+        index: "zim-index",
+        industry: "default",
+        container: "zim-container",
+        enableExternalDomain: false,
+      });
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        // mode: 'no-cors', // Set the mode to 'no-cors'
+        redirect: "follow",
+      };
+
+      const response = await fetch(apiUrl, requestOptions).then((response) =>
+        response.json()
+      );
+      const newId = response ? AiChating.length + 1 : 100;
+      const newEntry = {
+        id: newId,
+        prompt: textFieldValue,
+        response: await response,
+        // response: openAiData?.questions
+        //   ?.filter((file) => file.question == textFieldValue)
+        //   .map((item) => item.response)[0],
+      };
+
+      newEntry["pdfFiles"] = extractPDFFilesFromDataPoints(
+        newEntry?.response?.data_points
+      );
+
+      setAiChating([...AiChating, newEntry]);
+      setTextFieldValue("");
+      // const text = await response.json(); // convert the response to text
+      // console.log("Response:", text); // print the response text
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  const firstElementRef = useRef();
+  const secondElementRef = useRef();
+
+  useEffect(() => {
+    const firstElement = firstElementRef.current;
+    const secondElement = secondElementRef.current;
+
+    const handleResize = () => {
+      if (firstElement && secondElement) {
+        const firstElementHeight = firstElement.clientHeight;
+        secondElement.style.height = `${firstElementHeight}px`;
+      }
+    };
+
+    handleResize(); // Set initial height on mount
+
+    // Listen for changes in the first element's height
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      // Clean up the event listener on unmount
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <div className="flex w-full justify-center flex-row items-start gap-5 ps-3">
-      <div className="!min-w-[70%] !max-w-[70%]  bg-opacity-80 bg-slate-900 rounded-2xl shadow border-[2px] border-white  ">
+    <div className="flex  w-full justify-center flex-row  gap-5 ps-3">
+      <div
+        ref={firstElementRef}
+        className="!min-w-[70%] !max-w-[70%]  bg-opacity-80 bg-slate-900 rounded-2xl shadow border-[2px] border-white  "
+      >
         <div className="flex  justify-center flex-col items-center gap-5 p-5">
           {AiChating.length === 0 && (
             <div className="flex   justify-center flex-col items-center gap-5 ">
@@ -232,7 +340,7 @@ const Chatbot = () => {
           {/*  todo :: chatting responses */}
 
           {/* chatting */}
-          {AiChating.map((chat) => (
+          {AiChating?.map((chat) => (
             <>
               <div className="bg-neutral-200 rounded-lg self-end p-3">
                 <div className="flex justify-end gap-2">
@@ -269,12 +377,19 @@ const Chatbot = () => {
 
                 <div className=" text-black p-3 text-md font-normal ">
                   {/* <DotLoader /> */}
-                  {loading && "genrate data..."}
-                  {!loading && chat?.response?.answer}
-                  {!loading && !chat?.response?.answer && "I'm sorry, but I can't answer the questions which are not related to the document. As an AI language model, I don't have access to information unless you provide it to me. How may I assist you with enterprise documents?"}
+                  {chat?.response?.answer
+                    ? chat?.response?.answer
+                    : "Generate response ..."}
+                  {/* {chat?.response?.answer} */}
+                  {/* {chat?.answer} */}
+                  {/* {JSON.stringify(chat)} */}
+
+                  {/* {!loading && chat?.response?.answer} */}
+                  {/* {!loading &&
+                    !chat?.response?.answer &&
+                    "I'm sorry, but I can't answer the questions which are not related to the document. As an AI language model, I don't have access to information unless you provide it to me. How may I assist you with enterprise documents?"} */}
                 </div>
                 <div className="flex gap-2 px-3 flex-wrap">
-
                   <span className="font-bold text-sm">Citations :</span>
 
                   {chat?.pdfFiles?.map((item, index) => (
@@ -348,12 +463,10 @@ const Chatbot = () => {
           <InputField
             value={textFieldValue}
             setValue={setTextFieldValue}
-            submitFunction={addValueToAiChating}
+            submitFunction={handleClick}
           />
-          {/* <button
-            className="text-white bg-red-500 p-5"
-            onClick={addValueToAiChating}
-          >
+
+          {/* <button className="text-white bg-red-500 p-5" onClick={handleClick}>
             Add Value
           </button> */}
           {/* toggle */}
@@ -376,7 +489,10 @@ const Chatbot = () => {
       </div>
 
       {pdfResponseActive && (
-        <div className="!w-[30%]     bg-opacity-80 bg-slate-900 rounded-2xl shadow border-[2px]  border-white ">
+        <div
+          ref={secondElementRef}
+          className="!w-[30%]     bg-opacity-80 bg-slate-900 rounded-2xl shadow border-[2px]  border-white "
+        >
           <PdfResponseTab
             activeIds={PdfResponseTabActiveId}
             activePdf={activePdfViewCitationName}
