@@ -1,4 +1,5 @@
 import Layout from "../../components/Layout";
+import { FreightForwardingReportLink } from "../../data/powerbiData";
 
 const FreightForwardingReport = () => {
   return (
@@ -6,7 +7,7 @@ const FreightForwardingReport = () => {
       <iframe
         className="h-screen w-full border-none"
         title="Cargo Shipments Report"
-        src="https://app.powerbi.com/view?r=eyJrIjoiOTQwYTRjOGItOTM5Zi00ZjZlLWJiNjMtNjRjMTQwN2I5Mzg1IiwidCI6IjJjM2E2OTI5LTFmMDgtNDhmMi1iMDdmLTMwNzUyN2U4ZGQwYiIsImMiOjZ9&filterPaneEnabled=false&navContentPaneEnabled=false&toolbarEnabled=false&pageName=Freight%20Forwarding%20Report"
+        src={`${FreightForwardingReportLink}&filterPaneEnabled=false&navContentPaneEnabled=false&toolbarEnabled=false&pageName=Cargo%20Global%20Network%20Report`}
         frameBorder="0"
         allowFullScreen="true"
       ></iframe>
