@@ -49,12 +49,8 @@ jobs:
         with:
           name: node-app
 
-   
-
- # - name: Unzip artifact for deployment
-      #   run: unzip release.zip
-
-        
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
       
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -63,4 +59,4 @@ jobs:
           app-name: 'zim-demo'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_55BB9831DF3341FE88713A365FA00208 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6CD1D2E519484C5B84906312695E2337 }}
