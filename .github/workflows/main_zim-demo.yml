@@ -59,4 +59,4 @@ jobs:
           app-name: 'zim-demo'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_537B52D37FDA486AAD73C216433D55B3 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_55BB9831DF3341FE88713A365FA00208 }}
